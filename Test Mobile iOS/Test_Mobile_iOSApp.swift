@@ -9,9 +9,19 @@ import SwiftUI
 
 @main
 struct Test_Mobile_iOSApp: App {
+    @State private var coordinator = AppCoordinator()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Group {
+                switch coordinator.route {
+                case .splash:  SplashView()
+                case .login:   LoginView()
+                case .main:    MemberListView()
+                case .profile: ProfileView()
+                }
+            }
+            .environment(coordinator)
         }
     }
 }
