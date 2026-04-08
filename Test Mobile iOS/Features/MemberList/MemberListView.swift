@@ -138,38 +138,35 @@ struct MemberListView: View {
 
     private var draftTab: some View {
         ScrollView {
-            LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
-                Section {
-                    if vm.draftMembers.isEmpty {
-                        emptyState(
-                            title: "Belum ada data",
-                            subtitle: "Klik \"Tambah Data\" untuk menambahkan data calon anggota"
-                        )
-                    } else {
-                        // Info banner
-                        infoBanner("Nomor Handphone, NIK, dan Foto KTP wajib diisi sebelum di-upload")
-                            .padding(.horizontal, 16)
-                            .padding(.top, 12)
+            LazyVStack(spacing: 0) {
+                if vm.draftMembers.isEmpty {
+                    emptyState(
+                        title: "Belum ada data",
+                        subtitle: "Klik \"Tambah Data\" untuk menambahkan data calon anggota"
+                    )
+                } else {
+                    // Section header
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("List Draft KTA")
+                            .font(.headline)
+                        Text("Upload untuk mengirimkan data ini ke admin untuk di-verifikasi.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
 
-                        ForEach(Array(vm.draftMembers.enumerated()), id: \.element.id) { index, member in
-                            draftRow(index: index + 1, member: member)
-                        }
-                        .padding(.bottom, 140) // space for bottom buttons
-                    }
-                } header: {
-                    if !vm.draftMembers.isEmpty {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("List Draft KTA")
-                                .font(.headline)
-                            Text("Upload untuk mengirimkan data ini ke admin untuk di-verifikasi.")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    // Info banner
+                    infoBanner("Nomor Handphone, NIK, dan Foto KTP wajib diisi sebelum di-upload")
                         .padding(.horizontal, 16)
-                        .padding(.vertical, 10)
-                        .background(Color(.systemGroupedBackground))
+                        .padding(.bottom, 8)
+
+                    ForEach(Array(vm.draftMembers.enumerated()), id: \.element.id) { index, member in
+                        draftRow(index: index + 1, member: member)
                     }
+
+                    Spacer(minLength: 80)
                 }
             }
         }
